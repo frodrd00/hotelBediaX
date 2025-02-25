@@ -9,6 +9,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { ManageDestinationComponent } from '../manage-destination/manage-destination.component';
+import { DestinationService } from '../../services/destination.service';
 
 const ELEMENT_DATA: destination[] = [
   {
@@ -170,7 +172,10 @@ export class DestinationsTableComponent {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private destinationService: DestinationService
+  ) {}
 
   deleteRow(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -185,5 +190,54 @@ export class DestinationsTableComponent {
         );
       }
     });
+  }
+
+  openEditDialog(element: any): void {
+    const dialogRef = this.dialog.open(ManageDestinationComponent, {
+      width: '400px',
+      data: { ...element },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.destinationService
+          .editDestination(result)
+          .subscribe((updatedDestination) => {
+            const index = this.dataSource.data.findIndex(
+              (d) => d.id === updatedDestination.id
+            );
+            if (index !== -1) {
+              this.dataSource.data[index] = updatedDestination;
+              this.dataSource.data = [...this.dataSource.data];
+            }
+          });
+      }
+    });
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(ManageDestinationComponent, {
+      data: {
+        id: null, // Ensure id is null for new destinations
+        name: '',
+        description: '',
+        cc: '',
+        type: '',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.destinationService
+          .createDestination(result)
+          .subscribe((newDestination) => {
+            this.dataSource.data = [...this.dataSource.data, newDestination];
+          });
+      }
+    });
+  }
+
+  getTypeName(type: TypeEnum): string {
+    return type === TypeEnum.ocio ? 'Ocio' : 'Familiar';
   }
 }

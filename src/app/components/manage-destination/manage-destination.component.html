@@ -1,1 +1,33 @@
-<p>manage-destination works!</p>
+<h1 mat-dialog-title>
+  {{ data.id ? "Edit Destination" : "Crear Nuevo Destino" }}
+</h1>
+<div mat-dialog-content>
+  <form [formGroup]="destinationForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Country Code</mat-label>
+      <input matInput formControlName="cc" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Type</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="ocio">Ocio</mat-option>
+        <mat-option value="familiar">Familiar</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
+</div>
