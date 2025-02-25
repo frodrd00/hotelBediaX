@@ -194,7 +194,6 @@ export class DestinationsTableComponent {
 
   openEditDialog(element: any): void {
     const dialogRef = this.dialog.open(ManageDestinationComponent, {
-      width: '400px',
       data: { ...element },
     });
 

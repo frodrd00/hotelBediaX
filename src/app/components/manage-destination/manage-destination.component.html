@@ -1,24 +1,24 @@
 <h1 mat-dialog-title>
   {{ data.id ? "Edit Destination" : "Crear Nuevo Destino" }}
 </h1>
-<div mat-dialog-content>
-  <form [formGroup]="destinationForm">
-    <mat-form-field appearance="fill">
+<mat-dialog-content>
+  <form [formGroup]="destinationForm" class="grid-container">
+    <mat-form-field appearance="fill" class="grid-item">
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="grid-item">
       <mat-label>Description</mat-label>
       <input matInput formControlName="description" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="grid-item">
       <mat-label>Country Code</mat-label>
       <input matInput formControlName="cc" />
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="grid-item">
       <mat-label>Type</mat-label>
       <mat-select formControlName="type">
         <mat-option value="ocio">Ocio</mat-option>
@@ -26,8 +26,17 @@
       </mat-select>
     </mat-form-field>
   </form>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onSave()">Save</button>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions class="manage-destinations-actions">
+  <button mat-raised-button mat-dialog-close color="warn" (click)="onCancel()">
+    Cancel
+  </button>
+  <button
+    mat-raised-button
+    mat-dialog-close
+    cdkFocusInitialcolor="primary"
+    (click)="onSave()"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

@@ -1,4 +1,11 @@
 <header>
+  <div class="header-menu">
+    <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Inicio</button>
+      <button mat-menu-item>Destinos</button>
+    </mat-menu>
+  </div>
   <div class="header-content">
     <h1 style="cursor: pointer">🏨 Hotel Bedia</h1>
   </div>

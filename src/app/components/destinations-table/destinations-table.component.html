@@ -1,16 +1,18 @@
 <div class="table-content">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input
-      matInput
-      (keyup)="applyFilter($event)"
-      placeholder="Ex. ium"
-      #input
-    />
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="openCreateDialog()">
-    Create New Destination
-  </button>
+  <div class="table-top-actions">
+    <mat-form-field>
+      <mat-label>Filtro por columnas</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ej. Paris"
+        #input
+      />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="openCreateDialog()">
+      Crear nuevo destino
+    </button>
+  </div>
 
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- ID Column -->

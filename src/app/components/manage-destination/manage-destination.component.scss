@@ -1,0 +1,10 @@
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding: 24px;
+}
+
+.manage-destinations-actions {
+    justify-content: flex-end !important;
+}
