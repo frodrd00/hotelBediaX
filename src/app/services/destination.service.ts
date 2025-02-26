@@ -21,4 +21,12 @@ export class DestinationService {
       destination
     );
   }
+
+  deleteDestination(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getDestinations(): Observable<destination[]> {
+    return this.http.get<destination[]>(this.apiUrl);
+  }
 }

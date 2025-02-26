@@ -12,129 +12,6 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { ManageDestinationComponent } from '../manage-destination/manage-destination.component';
 import { DestinationService } from '../../services/destination.service';
 
-const ELEMENT_DATA: destination[] = [
-  {
-    id: 1,
-    name: 'Paris',
-    description: 'City of Light',
-    cc: 'FR',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 2,
-    name: 'New York',
-    description: 'The Big Apple',
-    cc: 'US',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 3,
-    name: 'Tokyo',
-    description: 'Land of the Rising Sun',
-    cc: 'JP',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 4,
-    name: 'Sydney',
-    description: 'Harbour City',
-    cc: 'AU',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 5,
-    name: 'Cape Town',
-    description: 'Mother City',
-    cc: 'ZA',
-    type: TypeEnum.familiar,
-    lastModif: new Date(),
-  },
-  {
-    id: 6,
-    name: 'London',
-    description: 'The Old Smoke',
-    cc: 'GB',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 7,
-    name: 'Rome',
-    description: 'The Eternal City',
-    cc: 'IT',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 8,
-    name: 'Berlin',
-    description: 'The Grey City',
-    cc: 'DE',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 9,
-    name: 'Moscow',
-    description: 'The Third Rome',
-    cc: 'RU',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 10,
-    name: 'Beijing',
-    description: 'The Northern Capital',
-    cc: 'CN',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 11,
-    name: 'Rio de Janeiro',
-    description: 'The Marvelous City',
-    cc: 'BR',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 12,
-    name: 'Dubai',
-    description: 'The City of Gold',
-    cc: 'AE',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 13,
-    name: 'Bangkok',
-    description: 'The City of Angels',
-    cc: 'TH',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 14,
-    name: 'Istanbul',
-    description: 'The City on Seven Hills',
-    cc: 'TR',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-  {
-    id: 15,
-    name: 'Los Angeles',
-    description: 'The City of Angels',
-    cc: 'US',
-    type: TypeEnum.ocio,
-    lastModif: new Date(),
-  },
-];
-
 @Component({
   selector: 'app-destinations-table',
   imports: [
@@ -159,12 +36,21 @@ export class DestinationsTableComponent {
     'lastModif',
     'actions',
   ];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+
+  ELEMENT_DATA: destination[] = [];
+
+  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnInit() {
+    this.destinationService.getDestinations().subscribe((data) => {
+      this.dataSource.data = data;
+    });
   }
 
   applyFilter(event: Event) {
@@ -185,9 +71,11 @@ export class DestinationsTableComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.dataSource.data = this.dataSource.data.filter(
-          (destination) => destination.id !== id
-        );
+        this.destinationService.deleteDestination(id).subscribe(() => {
+          this.dataSource.data = this.dataSource.data.filter(
+            (destination) => destination.id !== id
+          );
+        });
       }
     });
   }
