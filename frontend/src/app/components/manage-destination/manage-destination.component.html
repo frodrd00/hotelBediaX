@@ -28,13 +28,14 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions class="manage-destinations-actions">
-  <button mat-raised-button mat-dialog-close color="warn" (click)="onCancel()">
+  <button mat-raised-button mat-dialog-close (click)="onCancel()">
     Cancel
   </button>
   <button
     mat-raised-button
     mat-dialog-close
-    cdkFocusInitialcolor="primary"
+    cdkFocusInitial
+    color="primary"
     (click)="onSave()"
   >
     Save

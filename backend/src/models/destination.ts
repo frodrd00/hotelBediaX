@@ -10,6 +10,6 @@ const destinationSchema = new Schema({
   lastModif: { type: Date, default: Date.now },
 });
 
-const Destination = mongoose.model('destination', destinationSchema);
+const Destination = mongoose.model('Destination', destinationSchema);
 
 export default Destination;
