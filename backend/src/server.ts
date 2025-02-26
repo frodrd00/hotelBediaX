@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import Destination from './models/destination';
 const mongoose = require('mongoose');
-const Destination = require('./models/Destination');
 
 const app = express();
 const port = 5000;
@@ -20,8 +20,8 @@ mongoose
 
 app.get('/api/destination', async (req: Request, res: Response) => {
   try {
-    const destinations = await Destination.find();
-    res.json(destinations);
+    const destination = await Destination.find();
+    res.json(destination);
   } catch (err) {
     res.status(500).send(err);
   }
@@ -30,6 +30,7 @@ app.get('/api/destination', async (req: Request, res: Response) => {
 app.post('/api/destination', async (req: Request, res: Response) => {
   try {
     const newDestination = new Destination(req.body);
+    newDestination._id = new mongoose.Types.ObjectId();
     await newDestination.save();
     res.status(201).json(newDestination);
   } catch (err) {
@@ -40,7 +41,7 @@ app.post('/api/destination', async (req: Request, res: Response) => {
 app.patch('/api/destination/:id', async (req: Request, res: Response) => {
   try {
     const updatedDestination = await Destination.findByIdAndUpdate(
-      req.params['id'],
+      req.params.id,
       req.body,
       { new: true }
     );
@@ -57,7 +58,7 @@ app.patch('/api/destination/:id', async (req: Request, res: Response) => {
 app.delete('/api/destination/:id', async (req: Request, res: Response) => {
   try {
     const deletedDestination = await Destination.findByIdAndDelete(
-      req.params['id']
+      req.params.id
     );
     if (deletedDestination) {
       res.status(204).send();
@@ -69,6 +70,10 @@ app.delete('/api/destination/:id', async (req: Request, res: Response) => {
   }
 });
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Backend server is running at http://localhost:${port}`);
 });

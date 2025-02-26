@@ -1,16 +1,15 @@
-import { model } from '@angular/core';
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const destinationSchema = new Schema({
-  id: Number,
+  _id: Schema.Types.ObjectId,
   name: String,
   description: String,
   cc: String,
-  type: Number,
+  type: String,
   lastModif: { type: Date, default: Date.now },
 });
 
-const Destination = model('Destination', destinationSchema);
+const Destination = mongoose.model('destination', destinationSchema);
 
 export default Destination;
